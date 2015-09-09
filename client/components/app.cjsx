@@ -1,6 +1,6 @@
 @App = React.createClass
   render: ->
-    <div>
+    <div className="app">
       <h1>Meteor-React Demo</h1>
       <div>
         {this.props.children}
