@@ -32,9 +32,10 @@ Link = ReactRouter.Link
       <h2>Workouts</h2>
       <ul className="workout-list">
         {@renderWorkoutItems()}
+        <li className="workout-item-add">
+          <form onSubmit={@addItem}>
+            <input type="text" ref="input" placeholder="add workout" />
+          </form>
+        </li>
       </ul>
-      <form onSubmit={@addItem}>
-        <input type="text" ref="input"/>
-        <button type="submit">Add Workout</button>
-      </form>
     </div>

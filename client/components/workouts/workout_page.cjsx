@@ -14,7 +14,7 @@ Link = ReactRouter.Link
     exerciseTitle = React.findDOMNode(@refs.input).value
 
     exercises = @data.workout.exercises
-    exercises.push(title: exerciseTitle)
+    exercises.push(title: exerciseTitle, setsHistory: [])
     WorkoutsCollection.update(@data.workout._id, {$set: { exercises: exercises}})
     React.findDOMNode(@refs.input).value = ""
 
@@ -40,9 +40,10 @@ Link = ReactRouter.Link
       <h3>Exercises</h3>
       <ul className="exercises-list">
         {@renderExerciseItems()}
+        <li className="exercise-item-add">
+          <form onSubmit={@addItem}>
+            <input type="text" ref="input" placeholder="add exercise" />
+          </form>
+        </li>
       </ul>
-      <form onSubmit={@addItem}>
-        <input type="text" ref="input"/>
-        <button type="submit">Add Exercise</button>
-      </form>
     </div>
