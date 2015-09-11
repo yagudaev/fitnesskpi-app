@@ -5,6 +5,8 @@ history = ReactRouter.history.useQueries(ReactRouter.history.createHistory)()
   render: ->
     <Router history={history}>
       <Route component={App}>
-        <Route path="/" component={Items}/>
+        <Route path="/" component={WorkoutsPage} />
+        <Route path="/workouts" component={WorkoutsPage} />
+        <Route path="/workouts/:id" component={WorkoutPage} />
       </Route>
     </Router>
