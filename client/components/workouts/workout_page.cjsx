@@ -1,7 +1,8 @@
 Link = ReactRouter.Link
+Navigation = ReactRouter.Navigation
 
 @WorkoutPage = React.createClass
-  mixins: [ReactMeteorData]
+  mixins: [ReactMeteorData, Navigation]
 
   propTypes: ->
     params: React.PropTypes.object.isRequired
@@ -15,6 +16,11 @@ Link = ReactRouter.Link
 
   removeItem: (exerciseId) ->
     ExercisesCollection.remove(exerciseId)
+
+  finishWorkout: ->
+    duration = @refs.timer.time().get('seconds')
+    WorkoutsCollection.update @data.workout._id, $set: {duration: duration}
+    @transitionTo('/workouts')
 
   addSetHistoryItem: (exercise) ->
     (e) =>
@@ -33,11 +39,11 @@ Link = ReactRouter.Link
 
   render: ->
     <div className="workout-page">
-      <Timer />
+      <Timer ref="timer" />
       <h2>{@data.workout.title}</h2>
       <h3>Exercises</h3>
       <Table onAdd={@addItem} onRemove={@removeItem} placeholder="add exercise">
         {@renderExerciseItems()}
       </Table>
-      <Link to="/workouts">Back</Link>
+      <Button onClick={@finishWorkout}>Finish Workout</Button>
     </div>
