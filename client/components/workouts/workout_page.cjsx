@@ -33,10 +33,11 @@ Link = ReactRouter.Link
 
   render: ->
     <div className="workout-page">
-      <Link to="/workouts">Back</Link>
+      <Timer />
       <h2>{@data.workout.title}</h2>
       <h3>Exercises</h3>
       <Table onAdd={@addItem} onRemove={@removeItem} placeholder="add exercise">
         {@renderExerciseItems()}
       </Table>
+      <Link to="/workouts">Back</Link>
     </div>
