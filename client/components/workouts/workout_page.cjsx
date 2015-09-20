@@ -4,33 +4,31 @@ Link = ReactRouter.Link
   mixins: [ReactMeteorData]
 
   propTypes: ->
-    id: React.PropTypes.string.isRequired
+    params: React.PropTypes.object.isRequired
 
   getMeteorData: ->
     workout: WorkoutsCollection.findOne({_id: @props.params.id})
+    exercises: ExercisesCollection.find({workoutId: @props.params.id}).fetch()
 
-  addItem: (e) ->
-    e.preventDefault()
-    exerciseTitle = React.findDOMNode(@refs.input).value
+  addItem: (exerciseTitle) ->
+    ExercisesCollection.insert title: exerciseTitle, workoutId: @data.workout._id
 
-    exercises = @data.workout.exercises
-    exercises.push(title: exerciseTitle, setsHistory: [])
-    WorkoutsCollection.update(@data.workout._id, {$set: { exercises: exercises}})
-    React.findDOMNode(@refs.input).value = ""
+  removeItem: (exerciseId) ->
+    ExercisesCollection.remove(exerciseId)
 
-  removeItem: (exercise) ->
+  addSetHistoryItem: (exercise) ->
     (e) =>
-      e.preventDefault()
-      exercises = @data.workout.exercises
-      exercises = _.reject exercises, (e) -> e._id == exercise._id
-      WorkoutsCollection.update(@data.workout._id, {$set: { exercises: exercises}})
+      setsHistory = SetsHistoryCollection.find(exerciseId: exercise._id).fetch()
+      setHistory = _.last(setsHistory)
+      unless setHistory
+        setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id}
+      SetsHistoryCollection.insert(_.omit(setHistory, '_id'))
 
   renderExerciseItems: ->
-    return unless @data.workout.exercises
-    for exercise in @data.workout.exercises
-      <li className="exercise-item">
-        {exercise.title}
-        <a href="#" onClick={@removeItem(exercise)}>(delete)</a>
+    return unless @data.exercises
+    for exercise, i in @data.exercises
+      <li key="exercise-#{exercise._id}" className="exercise-item" dataId={exercise._id}>
+        <Link to="/workouts/#{@props.params.id}/exercises/#{exercise._id}" onClick={@addSetHistoryItem(exercise)}>{exercise.title}</Link>
       </li>
 
   render: ->
@@ -38,12 +36,7 @@ Link = ReactRouter.Link
       <Link to="/workouts">Back</Link>
       <h2>{@data.workout.title}</h2>
       <h3>Exercises</h3>
-      <ul className="exercises-list">
+      <Table onAdd={@addItem} onRemove={@removeItem} placeholder="add exercise">
         {@renderExerciseItems()}
-        <li className="exercise-item-add">
-          <form onSubmit={@addItem}>
-            <input type="text" ref="input" placeholder="add exercise" />
-          </form>
-        </li>
-      </ul>
+      </Table>
     </div>

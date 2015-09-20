@@ -8,34 +8,22 @@ Link = ReactRouter.Link
 
   getInitialState: -> {}
 
-  addItem: (e) ->
-    e.preventDefault()
-    workout = React.findDOMNode(@refs.input).value
+  addItem: (workoutTitle) ->
+    WorkoutsCollection.insert(title: workoutTitle)
 
-    WorkoutsCollection.insert(title: workout, exercises: [])
-    React.findDOMNode(@refs.input).value = ""
-
-  removeItem: (workout) ->
-    (e) ->
-      e.preventDefault()
-      WorkoutsCollection.remove(workout._id)
+  removeItem: (workoutId) ->
+    WorkoutsCollection.remove(workoutId)
 
   renderWorkoutItems: ->
     for workout in @data.workouts
-      <li className="workout-item">
+      <li key="workout-#{workout._id}" className="workout-item" dataId={workout._id}>
         <Link to="/workouts/#{workout._id}">{workout.title}</Link>
-        <a href="#" onClick={@removeItem(workout)}>(delete)</a>
       </li>
 
   render: ->
     <div className="workout-page">
       <h2>Workouts</h2>
-      <ul className="workout-list">
+      <Table placeholder="add workout" onAdd={@addItem} onRemove={@removeItem}>
         {@renderWorkoutItems()}
-        <li className="workout-item workout-item-add">
-          <form onSubmit={@addItem}>
-            <input type="text" ref="input" placeholder="add workout" />
-          </form>
-        </li>
-      </ul>
+      </Table>
     </div>
