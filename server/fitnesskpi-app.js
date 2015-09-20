@@ -1,3 +1,7 @@
 Meteor.startup(function () {
-  // code to run on server at startup
+});
+
+WebApp.connectHandlers.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  return next();
 });
