@@ -40,6 +40,7 @@ Navigation = ReactRouter.Navigation
   render: ->
     <div className="workout-page">
       <Timer ref="timer" />
+      <Link to="/workouts">Cancel</Link>
       <h2>{@data.workout.title}</h2>
       <h3>Exercises</h3>
       <Table onAdd={@addItem} onRemove={@removeItem} placeholder="add exercise">
