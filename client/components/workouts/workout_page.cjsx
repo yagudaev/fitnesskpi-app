@@ -8,6 +8,7 @@ Navigation = ReactRouter.Navigation
     params: React.PropTypes.object.isRequired
 
   getMeteorData: ->
+    workoutHistory: WorkoutHistoryCollection.findOne({workoutId: @props.params.id}, order: {createdAt: -1})
     workout: WorkoutsCollection.findOne({_id: @props.params.id})
     exercises: ExercisesCollection.find({workoutId: @props.params.id}).fetch()
 
@@ -19,16 +20,17 @@ Navigation = ReactRouter.Navigation
 
   finishWorkout: ->
     duration = @refs.timer.time().get('seconds')
-    WorkoutsCollection.update @data.workout._id, $set: {duration: duration}
+    WorkoutHistoryCollection.update @data.workoutHistory._id, $set: {duration: duration}
     @transitionTo('/workouts')
 
   addSetHistoryItem: (exercise) ->
     (e) =>
-      setsHistory = SetsHistoryCollection.find(exerciseId: exercise._id).fetch()
+      exerciseHistory = ExerciseHistoryCollection.insert workoutHistoryId: @data.workoutHistory._id, exerciseId: exercise._id, notes: ""
+      setsHistory = SetHistoryCollection.find(exerciseId: exercise._id).fetch()
       setHistory = _.last(setsHistory)
       unless setHistory
-        setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id}
-      SetsHistoryCollection.insert(_.omit(setHistory, '_id'))
+        setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id, exerciseHistoryId: exerciseHistory._id}
+      SetHistoryCollection.insert(_.omit(setHistory, '_id'))
 
   renderExerciseItems: ->
     return unless @data.exercises
@@ -39,7 +41,7 @@ Navigation = ReactRouter.Navigation
 
   render: ->
     <div className="workout-page">
-      <Timer ref="timer" />
+      <Timer startedAt={@data.workoutHistory.createdAt} ref="timer" />
       <Link to="/workouts">Cancel</Link>
       <h2>{@data.workout.title}</h2>
       <h3>Exercises</h3>

@@ -14,10 +14,14 @@ Link = ReactRouter.Link
   removeItem: (workoutId) ->
     WorkoutsCollection.remove(workoutId)
 
+  addWorkoutHistory: (workout) ->
+    (e) =>
+      WorkoutHistoryCollection.insert(workoutId: workout._id, duration: 0)
+
   renderWorkoutItems: ->
     for workout in @data.workouts
       <li key="workout-#{workout._id}" className="workout-item" dataId={workout._id}>
-        <Link to="/workouts/#{workout._id}">{workout.title}</Link>
+        <Link to="/workouts/#{workout._id}" onClick={@addWorkoutHistory(workout)}>{workout.title}</Link>
       </li>
 
   render: ->
