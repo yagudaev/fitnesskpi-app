@@ -30,4 +30,5 @@ Link = ReactRouter.Link
       <Table placeholder="add workout" onAdd={@addItem} onRemove={@removeItem}>
         {@renderWorkoutItems()}
       </Table>
+      <Link to="/">Back</Link>
     </div>
