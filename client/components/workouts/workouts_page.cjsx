@@ -4,19 +4,19 @@ Link = ReactRouter.Link
   mixins: [ReactMeteorData]
 
   getMeteorData: ->
-    workouts: WorkoutsCollection.find({}).fetch()
+    workouts: Workout.find({}).fetch()
 
   getInitialState: -> {}
 
   addItem: (workoutTitle) ->
-    WorkoutsCollection.insert(title: workoutTitle)
+    Workout.insert(title: workoutTitle)
 
   removeItem: (workoutId) ->
-    WorkoutsCollection.remove(workoutId)
+    Workout.remove(workoutId)
 
   addWorkoutHistory: (workout) ->
     (e) =>
-      WorkoutHistoryCollection.insert(workoutId: workout._id, duration: 0)
+      WorkoutHistory.insert(workoutId: workout._id, duration: 0)
 
   renderWorkoutItems: ->
     for workout in @data.workouts

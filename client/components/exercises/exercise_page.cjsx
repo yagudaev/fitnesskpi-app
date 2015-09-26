@@ -8,19 +8,19 @@ Link = ReactRouter.Link
     params: React.PropTypes.object.isRequired
 
   getMeteorData: ->
-    workout: WorkoutsCollection.findOne(_id: @props.params.workoutId)
-    exercise: ExercisesCollection.findOne(_id: @props.params.exerciseId)
-    setsHistory: _.first(SetHistoryCollection.find({exerciseId: @props.params.exerciseId}, sort: { createdAt: -1 }).fetch())
+    workout: Workout.findOne(_id: @props.params.workoutId)
+    exercise: Exercise.findOne(_id: @props.params.exerciseId)
+    setsHistory: _.first(SetHistory.find({exerciseId: @props.params.exerciseId}, sort: { createdAt: -1 }).fetch())
 
   addSet: (weight, reps) ->
     sets = @data.setsHistory.sets
     sets.push(weight: weight, reps: reps)
-    SetHistoryCollection.update(@data.setsHistory._id, {$set: { sets: sets}})
+    SetHistory.update(@data.setsHistory._id, {$set: { sets: sets}})
 
   removeSet: (setId) ->
     sets = @data.setsHistory.sets
     sets.splice(setId, 1)
-    SetHistoryCollection.update(@data.setsHistory._id, {$set: { sets: sets}})
+    SetHistory.update(@data.setsHistory._id, {$set: { sets: sets}})
 
   renderSetItems: ->
     for set, i in @data.setsHistory.sets

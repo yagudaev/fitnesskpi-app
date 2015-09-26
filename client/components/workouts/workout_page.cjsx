@@ -8,29 +8,29 @@ Navigation = ReactRouter.Navigation
     params: React.PropTypes.object.isRequired
 
   getMeteorData: ->
-    workoutHistory: WorkoutHistoryCollection.findOne({workoutId: @props.params.id}, order: {createdAt: -1})
-    workout: WorkoutsCollection.findOne({_id: @props.params.id})
-    exercises: ExercisesCollection.find({workoutId: @props.params.id}).fetch()
+    workoutHistory: WorkoutHistory.findOne({workoutId: @props.params.id}, order: {createdAt: -1})
+    workout: Workout.findOne({_id: @props.params.id})
+    exercises: Exercise.find({workoutId: @props.params.id}).fetch()
 
   addItem: (exerciseTitle) ->
-    ExercisesCollection.insert title: exerciseTitle, workoutId: @data.workout._id
+    Exercise.insert title: exerciseTitle, workoutId: @data.workout._id
 
   removeItem: (exerciseId) ->
-    ExercisesCollection.remove(exerciseId)
+    Exercise.remove(exerciseId)
 
   finishWorkout: ->
     duration = @refs.timer.time().get('seconds')
-    WorkoutHistoryCollection.update @data.workoutHistory._id, $set: {duration: duration}
+    WorkoutHistory.update @data.workoutHistory._id, $set: {duration: duration}
     @transitionTo('/workouts')
 
   addSetHistoryItem: (exercise) ->
     (e) =>
-      exerciseHistory = ExerciseHistoryCollection.insert workoutHistoryId: @data.workoutHistory._id, exerciseId: exercise._id, notes: ""
-      setsHistory = SetHistoryCollection.find(exerciseId: exercise._id).fetch()
+      exerciseHistory = ExerciseHistory.insert workoutHistoryId: @data.workoutHistory._id, exerciseId: exercise._id, notes: ""
+      setsHistory = SetHistory.find(exerciseId: exercise._id).fetch()
       setHistory = _.last(setsHistory)
       unless setHistory
         setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id, exerciseHistoryId: exerciseHistory._id}
-      SetHistoryCollection.insert(_.omit(setHistory, '_id'))
+      SetHistory.insert(_.omit(setHistory, '_id'))
 
   renderExerciseItems: ->
     return unless @data.exercises
@@ -44,7 +44,7 @@ Navigation = ReactRouter.Navigation
       <Timer startedAt={@data.workoutHistory.createdAt} ref="timer" />
       <Link to="/workouts">Cancel</Link>
       <h2>{@data.workout.title}</h2>
-      <h3>Exercises</h3>
+      <h3>Exercise</h3>
       <Table onAdd={@addItem} onRemove={@removeItem} placeholder="add exercise">
         {@renderExerciseItems()}
       </Table>

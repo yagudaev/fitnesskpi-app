@@ -4,25 +4,25 @@ addCreatedAt = (userId, doc) ->
 addUpdatedAt = (userId, doc) ->
   doc.updatedAt = Date.now()
 
-@WorkoutsCollection = new Mongo.Collection("workouts")
-@WorkoutsCollection.before.insert addCreatedAt
-@WorkoutsCollection.before.update addUpdatedAt
+@Workout = new Mongo.Collection("workouts")
+@Workout.before.insert addCreatedAt
+@Workout.before.update addUpdatedAt
 
-@ExercisesCollection = new Mongo.Collection("exercises")
-@ExercisesCollection.before.insert addCreatedAt
-@ExercisesCollection.before.update addUpdatedAt
+@Exercise = new Mongo.Collection("exercises")
+@Exercise.before.insert addCreatedAt
+@Exercise.before.update addUpdatedAt
 
-@SetHistoryCollection = new Mongo.Collection("set_history")
-@SetHistoryCollection.before.insert addCreatedAt
-@SetHistoryCollection.before.update addUpdatedAt
+@SetHistory = new Mongo.Collection("set_history")
+@SetHistory.before.insert addCreatedAt
+@SetHistory.before.update addUpdatedAt
 
-@WorkoutHistoryCollection = new Mongo.Collection("workout_history")
-@WorkoutHistoryCollection.before.insert addCreatedAt
-@WorkoutHistoryCollection.before.update addUpdatedAt
+@WorkoutHistory = new Mongo.Collection("workout_history")
+@WorkoutHistory.before.insert addCreatedAt
+@WorkoutHistory.before.update addUpdatedAt
 
-@ExerciseHistoryCollection = new Mongo.Collection("exercise_history")
-@ExerciseHistoryCollection.before.insert addCreatedAt
-@ExerciseHistoryCollection.before.update addUpdatedAt
+@ExerciseHistory = new Mongo.Collection("exercise_history")
+@ExerciseHistory.before.insert addCreatedAt
+@ExerciseHistory.before.update addUpdatedAt
 
 # workouts = [{
 #   _id: 1
