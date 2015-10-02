@@ -17,6 +17,7 @@ Link = ReactRouter.Link
 
   renderSets: (exerciseHistory) ->
     setHistory = SetHistory.findOne(exerciseHistoryId: exerciseHistory._id)
+    return unless setHistory
     items =
       for set, i in setHistory.sets
         <li key={i} className="set-history-item">{set.weight}x{set.reps}</li>
