@@ -25,11 +25,11 @@ Navigation = ReactRouter.Navigation
 
   addSetHistoryItem: (exercise) ->
     (e) =>
-      exerciseHistory = ExerciseHistory.insert workoutHistoryId: @data.workoutHistory._id, exerciseId: exercise._id, notes: ""
+      exerciseHistoryId = ExerciseHistory.insert workoutHistoryId: @data.workoutHistory._id, exerciseId: exercise._id, notes: ""
       setsHistory = SetHistory.find(exerciseId: exercise._id).fetch()
       setHistory = _.last(setsHistory)
       unless setHistory
-        setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id, exerciseHistoryId: exerciseHistory._id}
+        setHistory = {sets: [{weight: 0, reps: 0}], notes: "", exerciseId: exercise._id, exerciseHistoryId: exerciseHistoryId}
       SetHistory.insert(_.omit(setHistory, '_id'))
 
   renderExerciseItems: ->

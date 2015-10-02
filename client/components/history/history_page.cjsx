@@ -5,7 +5,7 @@ Link = ReactRouter.Link
   mixins: [ReactMeteorData]
 
   getMeteorData: ->
-    workoutHistory: WorkoutHistory.find({}, order: {createdAt: -1}).fetch()
+    workoutHistory: WorkoutHistory.find({}, sort: {createdAt: -1}).fetch()
 
   formatTime: (seconds) ->
     moment.duration(seconds * 1000).format("HH:mm:ss", trim: false)
@@ -16,7 +16,11 @@ Link = ReactRouter.Link
   renderWorkoutItems: ->
     for workout in @data.workoutHistory
       workoutTemplate = Workout.findOne(_id: workout.workoutId)
-      <li className="workout-item">{@formatDate(workout.createdAt)} - {workoutTemplate.title} - {@formatTime(workout.duration)}</li>
+      <li className="workout-item">
+        <Link to="/history/#{workout._id}">
+          {@formatDate(workout.createdAt)} - {workoutTemplate.title} - {@formatTime(workout.duration)}
+        </Link>
+      </li>
 
   render: ->
     <div className="history-page">

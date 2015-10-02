@@ -12,5 +12,6 @@ history = ReactRouter.history.useQueries(ReactRouter.history.createHistory)()
         <Route path="/workouts/:workoutId/exercises/:exerciseId" component={ExercisePage} />
 
         <Route path="/history" component={HistoryPage} />
+        <Route path="/history/:id" component={WorkoutHistoryPage} />
       </Route>
     </Router>
