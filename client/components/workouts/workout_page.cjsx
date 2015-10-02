@@ -8,7 +8,7 @@ Navigation = ReactRouter.Navigation
     params: React.PropTypes.object.isRequired
 
   getMeteorData: ->
-    workoutHistory: WorkoutHistory.findOne({workoutId: @props.params.id}, order: {createdAt: -1})
+    workoutHistory: WorkoutHistory.findOne({workoutId: @props.params.id}, sort: {createdAt: -1})
     workout: Workout.findOne({_id: @props.params.id})
     exercises: Exercise.find({workoutId: @props.params.id}).fetch()
 
