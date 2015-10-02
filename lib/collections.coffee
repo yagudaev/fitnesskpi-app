@@ -12,15 +12,15 @@ addUpdatedAt = (userId, doc) ->
 @Exercise.before.insert addCreatedAt
 @Exercise.before.update addUpdatedAt
 
-@SetHistory = new Mongo.Collection("set_history")
+@SetHistory = new Mongo.Collection("setHistory")
 @SetHistory.before.insert addCreatedAt
 @SetHistory.before.update addUpdatedAt
 
-@WorkoutHistory = new Mongo.Collection("workout_history")
+@WorkoutHistory = new Mongo.Collection("workoutHistory")
 @WorkoutHistory.before.insert addCreatedAt
 @WorkoutHistory.before.update addUpdatedAt
 
-@ExerciseHistory = new Mongo.Collection("exercise_history")
+@ExerciseHistory = new Mongo.Collection("exerciseHistory")
 @ExerciseHistory.before.insert addCreatedAt
 @ExerciseHistory.before.update addUpdatedAt
 
