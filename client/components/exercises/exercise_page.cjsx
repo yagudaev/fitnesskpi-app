@@ -24,7 +24,7 @@ Link = ReactRouter.Link
 
   renderSetItems: ->
     for set, i in @data.setsHistory.sets
-      <li key="set-#{i}" className="set-item" dataId={i}>{set.weight} x {set.reps}</li>
+      <li key="set-#{i}" className="set-item table-row collection-item dismissable" dataId={i}>{set.weight} x {set.reps}</li>
 
   render: ->
     <div className="exercise-page">

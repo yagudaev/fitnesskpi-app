@@ -1,0 +1,7 @@
+.table {
+  @extend .collection;
+
+  .table-row {
+    @extend .collection-item;
+  }
+}

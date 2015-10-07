@@ -30,9 +30,9 @@
       child
 
   render: ->
-    <ul className="table">
+    <ul className="table collection">
       {@renderChildren()}
-      <li className="table-row">
+      <li className="table-row collection-item dismissable">
         <form onSubmit={@addItem}>
           <input type="text" ref="input" placeholder={@props.placeholder} />
         </form>

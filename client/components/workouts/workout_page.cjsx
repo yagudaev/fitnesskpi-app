@@ -35,7 +35,7 @@ Navigation = ReactRouter.Navigation
   renderExerciseItems: ->
     return unless @data.exercises
     for exercise, i in @data.exercises
-      <li key="exercise-#{exercise._id}" className="exercise-item" dataId={exercise._id}>
+      <li key="exercise-#{exercise._id}" className="exercise-item table-row collection-item dismissable" dataId={exercise._id}>
         <Link to="/workouts/#{@props.params.id}/exercises/#{exercise._id}" onClick={@addSetHistoryItem(exercise)}>{exercise.title}</Link>
       </li>
 

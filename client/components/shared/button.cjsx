@@ -1,6 +1,6 @@
 @Button = React.createClass
   displayName: 'Button'
-  
+
   propTypes:
     children: React.PropTypes.any.isRequired
     onClick: React.PropTypes.func

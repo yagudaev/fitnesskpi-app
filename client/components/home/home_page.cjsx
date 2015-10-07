@@ -6,11 +6,11 @@ Link = ReactRouter.Link
   render: ->
     <div className="home-page">
       <h2>Home</h2>
-      <ul>
-        <li>
+      <ul className="collection">
+        <li className="collection-item">
           <Link to="/workouts">Workouts</Link>
         </li>
-        <li>
+        <li className="collection-item">
           <Link to="/history">History</Link>
         </li>
       </ul>
